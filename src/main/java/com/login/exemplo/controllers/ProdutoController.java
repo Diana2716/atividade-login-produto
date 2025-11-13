@@ -18,28 +18,24 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    // 1️⃣ GET por ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getProdutoById(@PathVariable int id) {
         Optional<Produto> produto = produtoRepository.findById(id);
         return produto.isPresent() ? ResponseEntity.ok(produto.get()) : ResponseEntity.notFound().build();
     }
 
-    // 2️⃣ GET All
     @GetMapping
     public ResponseEntity<List<Produto>> getAllProdutos() {
         List<Produto> produtos = produtoRepository.findAll();
         return ResponseEntity.ok(produtos);
     }
 
-    // 3️⃣ POST (criar produto)
     @PostMapping
     public ResponseEntity<Produto> createProduto(@RequestBody Produto produto) {
         Produto novoProduto = produtoRepository.save(produto);
         return ResponseEntity.ok(novoProduto);
     }
 
-    // 4️⃣ PUT (atualizar apenas a quantidade)
     @PutMapping("/{id}")
     public ResponseEntity<?> updateQuantidade(@PathVariable int id, @RequestBody Produto produtoAtualizado) {
         Optional<Produto> produtoOptional = produtoRepository.findById(id);
@@ -52,8 +48,6 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    // 5️⃣ DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduto(@PathVariable int id) {
         if (produtoRepository.existsById(id)) {
